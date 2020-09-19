@@ -54,7 +54,7 @@ df['age'].describe()
 # for multiple columns 
 df[['age', 'BMI']].describe() 
 
-# Exploring Series 
+## Exploring Series 
 
 # read another dataset 
 titanic = pd.read_csv('http://bit.ly/kaggletrain')
@@ -91,7 +91,7 @@ pd.crosstab(titanic['Sex'], titanic['Survived'])
 # describe a categorical column 
 titanic['Age'].describe() 
 
-## Basic STATS 
+## Basic Statistics
 
 # mean()
 titanic.Age.mean() 

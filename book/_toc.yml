@@ -6,3 +6,7 @@
   - file: notebooks/01-Getting Started
   - file: notebooks/02-Reading Data
   - file: notebooks/03-Exploring Data
+  - file: notebooks/04-Methods and Attributes
+  - file: notebooks/05-Selecting Series from a DataFrame
+  - file: notebooks/06-Renaming Columns and Replace Value
+  - file: notebooks/07-Removing Columns in Pandas 

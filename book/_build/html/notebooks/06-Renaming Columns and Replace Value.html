@@ -1,0 +1,1162 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Renaming Columns &#8212; Pandas for Data Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Selecting Series from DataFrame" href="05-Selecting Series from a DataFrame.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Pandas for Data Analysis</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Basics
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   About Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Getting Started.html">
+   Getting Started
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Reading Data.html">
+   Reading Data into Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-Exploring Data.html">
+   Exploring Dataset
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-Methods and Attributes.html">
+   Methods and Attributes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-Selecting Series from a DataFrame.html">
+   Selecting Series from DataFrame
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-Selecting Series from a DataFrame.html#single-series">
+   Single Series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-Selecting Series from a DataFrame.html#multiple-series">
+   Multiple Series
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Renaming Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#replace">
+   Replace
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/06-Renaming Columns and Replace Value.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/hossainlab/pandas/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/hossainlab/pandas/master?urlpath=tree/book/notebooks/06-Renaming Columns and Replace Value.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/hossainlab/pandas/blob/master/book/notebooks/06-Renaming Columns and Replace Value.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="renaming-columns">
+<h1>Renaming Columns<a class="headerlink" href="#renaming-columns" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read a dataset of UFO reports into a DataFrame</span>
+<span class="n">ufo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://bit.ly/uforeports&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the first 5 rows </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>City</th>
+      <th>Colors Reported</th>
+      <th>Shape Reported</th>
+      <th>State</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Ithaca</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>NY</td>
+      <td>6/1/1930 22:00</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Willingboro</td>
+      <td>NaN</td>
+      <td>OTHER</td>
+      <td>NJ</td>
+      <td>6/30/1930 20:00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Holyoke</td>
+      <td>NaN</td>
+      <td>OVAL</td>
+      <td>CO</td>
+      <td>2/15/1931 14:00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Abilene</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>KS</td>
+      <td>6/1/1931 13:00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>New York Worlds Fair</td>
+      <td>NaN</td>
+      <td>LIGHT</td>
+      <td>NY</td>
+      <td>4/18/1933 19:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the column names </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;City&#39;, &#39;Colors Reported&#39;, &#39;Shape Reported&#39;, &#39;State&#39;, &#39;Time&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># rename two of the columns by useing `rename` method</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Colors Reported&#39;</span><span class="p">:</span> <span class="s1">&#39;Colors_Reported&#39;</span><span class="p">,</span> <span class="s1">&#39;Shape Reported&#39;</span><span class="p">:</span> <span class="s1">&#39;Shape_Reported&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ufo</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>City</th>
+      <th>Colors_Reported</th>
+      <th>Shape_Reported</th>
+      <th>State</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Ithaca</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>NY</td>
+      <td>6/1/1930 22:00</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Willingboro</td>
+      <td>NaN</td>
+      <td>OTHER</td>
+      <td>NJ</td>
+      <td>6/30/1930 20:00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Holyoke</td>
+      <td>NaN</td>
+      <td>OVAL</td>
+      <td>CO</td>
+      <td>2/15/1931 14:00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Abilene</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>KS</td>
+      <td>6/1/1931 13:00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>New York Worlds Fair</td>
+      <td>NaN</td>
+      <td>LIGHT</td>
+      <td>NY</td>
+      <td>4/18/1933 19:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace all of the column names by overwritting the &#39;colums&#39; attribute </span>
+<span class="n">ufo_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;colors reported&#39;</span><span class="p">,</span> <span class="s1">&#39;shape reported&#39;</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">]</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">ufo_cols</span>
+<span class="c1"># see modified columns </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;city&#39;, &#39;colors reported&#39;, &#39;shape reported&#39;, &#39;state&#39;, &#39;time&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace the column names during the file reading process by using the &#39;names&#39; parameter</span>
+<span class="n">ufo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://bit.ly/uforeports&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">ufo_cols</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the 5 rows </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>colors reported</th>
+      <th>shape reported</th>
+      <th>state</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>City</td>
+      <td>Colors Reported</td>
+      <td>Shape Reported</td>
+      <td>State</td>
+      <td>Time</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Ithaca</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>NY</td>
+      <td>6/1/1930 22:00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Willingboro</td>
+      <td>NaN</td>
+      <td>OTHER</td>
+      <td>NJ</td>
+      <td>6/30/1930 20:00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Holyoke</td>
+      <td>NaN</td>
+      <td>OVAL</td>
+      <td>CO</td>
+      <td>2/15/1931 14:00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Abilene</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>KS</td>
+      <td>6/1/1931 13:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace all spaces with underscores in the column names by using the &#39;str.replace&#39; method</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">ufo</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;city&#39;, &#39;colors_reported&#39;, &#39;shape_reported&#39;, &#39;state&#39;, &#39;time&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s look at DataFrame</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>colors_reported</th>
+      <th>shape_reported</th>
+      <th>state</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>City</td>
+      <td>Colors Reported</td>
+      <td>Shape Reported</td>
+      <td>State</td>
+      <td>Time</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Ithaca</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>NY</td>
+      <td>6/1/1930 22:00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Willingboro</td>
+      <td>NaN</td>
+      <td>OTHER</td>
+      <td>NJ</td>
+      <td>6/30/1930 20:00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Holyoke</td>
+      <td>NaN</td>
+      <td>OVAL</td>
+      <td>CO</td>
+      <td>2/15/1931 14:00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Abilene</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>KS</td>
+      <td>6/1/1931 13:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="replace">
+<h1>Replace<a class="headerlink" href="#replace" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read another dataset </span>
+<span class="n">fm</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/framingham.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine  first few rows </span>
+<span class="n">fm</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>male</th>
+      <th>age</th>
+      <th>education</th>
+      <th>currentSmoker</th>
+      <th>cigsPerDay</th>
+      <th>BPMeds</th>
+      <th>prevalentStroke</th>
+      <th>prevalentHyp</th>
+      <th>diabetes</th>
+      <th>totChol</th>
+      <th>sysBP</th>
+      <th>diaBP</th>
+      <th>BMI</th>
+      <th>heartRate</th>
+      <th>glucose</th>
+      <th>TenYearCHD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>39</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>195.0</td>
+      <td>106.0</td>
+      <td>70.0</td>
+      <td>26.97</td>
+      <td>80.0</td>
+      <td>77.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>46</td>
+      <td>2.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>250.0</td>
+      <td>121.0</td>
+      <td>81.0</td>
+      <td>28.73</td>
+      <td>95.0</td>
+      <td>76.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>48</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>245.0</td>
+      <td>127.5</td>
+      <td>80.0</td>
+      <td>25.34</td>
+      <td>75.0</td>
+      <td>70.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0</td>
+      <td>61</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>30.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>225.0</td>
+      <td>150.0</td>
+      <td>95.0</td>
+      <td>28.58</td>
+      <td>65.0</td>
+      <td>103.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0</td>
+      <td>46</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>23.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>285.0</td>
+      <td>130.0</td>
+      <td>84.0</td>
+      <td>23.10</td>
+      <td>85.0</td>
+      <td>85.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first rename `male` to `sex` </span>
+<span class="n">fm</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;male&quot;</span><span class="p">:</span> <span class="s2">&quot;sex&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now take a look at dataset </span>
+<span class="n">fm</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>age</th>
+      <th>education</th>
+      <th>currentSmoker</th>
+      <th>cigsPerDay</th>
+      <th>BPMeds</th>
+      <th>prevalentStroke</th>
+      <th>prevalentHyp</th>
+      <th>diabetes</th>
+      <th>totChol</th>
+      <th>sysBP</th>
+      <th>diaBP</th>
+      <th>BMI</th>
+      <th>heartRate</th>
+      <th>glucose</th>
+      <th>TenYearCHD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>39</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>195.0</td>
+      <td>106.0</td>
+      <td>70.0</td>
+      <td>26.97</td>
+      <td>80.0</td>
+      <td>77.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>46</td>
+      <td>2.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>250.0</td>
+      <td>121.0</td>
+      <td>81.0</td>
+      <td>28.73</td>
+      <td>95.0</td>
+      <td>76.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>48</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>245.0</td>
+      <td>127.5</td>
+      <td>80.0</td>
+      <td>25.34</td>
+      <td>75.0</td>
+      <td>70.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0</td>
+      <td>61</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>30.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>225.0</td>
+      <td>150.0</td>
+      <td>95.0</td>
+      <td>28.58</td>
+      <td>65.0</td>
+      <td>103.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0</td>
+      <td>46</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>23.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>285.0</td>
+      <td>130.0</td>
+      <td>84.0</td>
+      <td>23.10</td>
+      <td>85.0</td>
+      <td>85.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="replace-value-for-better-understanding-of-dataset">
+<h2>Replace Value for Better Understanding of Dataset<a class="headerlink" href="#replace-value-for-better-understanding-of-dataset" title="Permalink to this headline">¶</a></h2>
+<p><strong>sex</strong></p>
+<ul class="simple">
+<li><p>1 = Male</p></li>
+<li><p>0 = Female</p></li>
+</ul>
+<p><strong>diabetes</strong></p>
+<ul class="simple">
+<li><p>1 = Yes</p></li>
+<li><p>0 = No</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace sex column value</span>
+<span class="n">fm</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># replace diabetes column value </span>
+<span class="n">fm</span><span class="p">[</span><span class="s1">&#39;diabetes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;no&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine dataset</span>
+<span class="n">fm</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>age</th>
+      <th>education</th>
+      <th>currentSmoker</th>
+      <th>cigsPerDay</th>
+      <th>BPMeds</th>
+      <th>prevalentStroke</th>
+      <th>prevalentHyp</th>
+      <th>diabetes</th>
+      <th>totChol</th>
+      <th>sysBP</th>
+      <th>diaBP</th>
+      <th>BMI</th>
+      <th>heartRate</th>
+      <th>glucose</th>
+      <th>TenYearCHD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>male</td>
+      <td>39</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>no</td>
+      <td>195.0</td>
+      <td>106.0</td>
+      <td>70.0</td>
+      <td>26.97</td>
+      <td>80.0</td>
+      <td>77.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>female</td>
+      <td>46</td>
+      <td>2.0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>no</td>
+      <td>250.0</td>
+      <td>121.0</td>
+      <td>81.0</td>
+      <td>28.73</td>
+      <td>95.0</td>
+      <td>76.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>male</td>
+      <td>48</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>no</td>
+      <td>245.0</td>
+      <td>127.5</td>
+      <td>80.0</td>
+      <td>25.34</td>
+      <td>75.0</td>
+      <td>70.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>female</td>
+      <td>61</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>30.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>no</td>
+      <td>225.0</td>
+      <td>150.0</td>
+      <td>95.0</td>
+      <td>28.58</td>
+      <td>65.0</td>
+      <td>103.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>female</td>
+      <td>46</td>
+      <td>3.0</td>
+      <td>1</td>
+      <td>23.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>no</td>
+      <td>285.0</td>
+      <td>130.0</td>
+      <td>84.0</td>
+      <td>23.10</td>
+      <td>85.0</td>
+      <td>85.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "hossainlab/pandas",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="05-Selecting Series from a DataFrame.html" title="previous page">Selecting Series from DataFrame</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jubayer Hossain<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>
