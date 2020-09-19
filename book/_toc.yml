@@ -2,4 +2,7 @@
 
 - part: Basics
   chapters:
-  - file: notebooks/intro 
+  - file: notebooks/intro
+  - file: notebooks/01-Getting Started
+  - file: notebooks/02-Reading Data
+  - file: notebooks/03-Exploring Data

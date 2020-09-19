@@ -1,0 +1,1916 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reading Data into Pandas &#8212; Pandas for Data Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exploring Dataset" href="03-Exploring Data.html" />
+    <link rel="prev" title="Getting Started" href="01-Getting Started.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Pandas for Data Analysis</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Basics
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   About Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Getting Started.html">
+   Getting Started
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Reading Data into Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-Exploring Data.html">
+   Exploring Dataset
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-Exploring Data.html#exploring-series">
+   Exploring Series
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/02-Reading Data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/hossainlab/pandas/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/hossainlab/pandas/master?urlpath=tree/book/notebooks/02-Reading Data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/hossainlab/pandas/blob/master/book/notebooks/02-Reading Data.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-csv">
+   Read CSV
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-excel-sheet">
+   Read Excel Sheet
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-multiple-excel-sheets">
+   Read Multiple Excel Sheets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-url">
+   From URL
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modify-dataset">
+   Modify Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-biological-data-txt">
+   Read Biological Data(.txt)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-biological-data-tsv">
+   Read Biological Data(.tsv)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-html-data">
+   Read HTML Data
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="reading-data-into-pandas">
+<h1>Reading Data into Pandas<a class="headerlink" href="#reading-data-into-pandas" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># conventional way to import pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="read-csv">
+<h2>Read CSV<a class="headerlink" href="#read-csv" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read data from csv file </span>
+<span class="n">corona</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/covid-19_cleaned_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine first few rows </span>
+<span class="n">corona</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Province/State</th>
+      <th>Country/Region</th>
+      <th>Lat</th>
+      <th>Long</th>
+      <th>Date</th>
+      <th>Confirmed</th>
+      <th>Deaths</th>
+      <th>Recovered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Thailand</td>
+      <td>Thailand</td>
+      <td>15.0000</td>
+      <td>101.0000</td>
+      <td>2020-01-22</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Japan</td>
+      <td>Japan</td>
+      <td>36.0000</td>
+      <td>138.0000</td>
+      <td>2020-01-22</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Singapore</td>
+      <td>Singapore</td>
+      <td>1.2833</td>
+      <td>103.8333</td>
+      <td>2020-01-22</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Nepal</td>
+      <td>Nepal</td>
+      <td>28.1667</td>
+      <td>84.2500</td>
+      <td>2020-01-22</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Malaysia</td>
+      <td>Malaysia</td>
+      <td>2.5000</td>
+      <td>112.5000</td>
+      <td>2020-01-22</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="read-excel-sheet">
+<h2>Read Excel Sheet<a class="headerlink" href="#read-excel-sheet" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read data from excel file </span>
+<span class="n">movies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">&quot;../data/movies.xls&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine first few rows </span>
+<span class="n">movies</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Year</th>
+      <th>Genres</th>
+      <th>Language</th>
+      <th>Country</th>
+      <th>Content Rating</th>
+      <th>Duration</th>
+      <th>Aspect Ratio</th>
+      <th>Budget</th>
+      <th>Gross Earnings</th>
+      <th>...</th>
+      <th>Facebook Likes - Actor 1</th>
+      <th>Facebook Likes - Actor 2</th>
+      <th>Facebook Likes - Actor 3</th>
+      <th>Facebook Likes - cast Total</th>
+      <th>Facebook likes - Movie</th>
+      <th>Facenumber in posters</th>
+      <th>User Votes</th>
+      <th>Reviews by Users</th>
+      <th>Reviews by Crtiics</th>
+      <th>IMDB Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Intolerance: Love's Struggle Throughout the Ages</td>
+      <td>1916</td>
+      <td>Drama|History|War</td>
+      <td>NaN</td>
+      <td>USA</td>
+      <td>Not Rated</td>
+      <td>123</td>
+      <td>1.33</td>
+      <td>385907.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>436</td>
+      <td>22</td>
+      <td>9.0</td>
+      <td>481</td>
+      <td>691</td>
+      <td>1</td>
+      <td>10718</td>
+      <td>88</td>
+      <td>69.0</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Over the Hill to the Poorhouse</td>
+      <td>1920</td>
+      <td>Crime|Drama</td>
+      <td>NaN</td>
+      <td>USA</td>
+      <td>NaN</td>
+      <td>110</td>
+      <td>1.33</td>
+      <td>100000.0</td>
+      <td>3000000.0</td>
+      <td>...</td>
+      <td>2</td>
+      <td>2</td>
+      <td>0.0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>4.8</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>The Big Parade</td>
+      <td>1925</td>
+      <td>Drama|Romance|War</td>
+      <td>NaN</td>
+      <td>USA</td>
+      <td>Not Rated</td>
+      <td>151</td>
+      <td>1.33</td>
+      <td>245000.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>81</td>
+      <td>12</td>
+      <td>6.0</td>
+      <td>108</td>
+      <td>226</td>
+      <td>0</td>
+      <td>4849</td>
+      <td>45</td>
+      <td>48.0</td>
+      <td>8.3</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Metropolis</td>
+      <td>1927</td>
+      <td>Drama|Sci-Fi</td>
+      <td>German</td>
+      <td>Germany</td>
+      <td>Not Rated</td>
+      <td>145</td>
+      <td>1.33</td>
+      <td>6000000.0</td>
+      <td>26435.0</td>
+      <td>...</td>
+      <td>136</td>
+      <td>23</td>
+      <td>18.0</td>
+      <td>203</td>
+      <td>12000</td>
+      <td>1</td>
+      <td>111841</td>
+      <td>413</td>
+      <td>260.0</td>
+      <td>8.3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Pandora's Box</td>
+      <td>1929</td>
+      <td>Crime|Drama|Romance</td>
+      <td>German</td>
+      <td>Germany</td>
+      <td>Not Rated</td>
+      <td>110</td>
+      <td>1.33</td>
+      <td>NaN</td>
+      <td>9950.0</td>
+      <td>...</td>
+      <td>426</td>
+      <td>20</td>
+      <td>3.0</td>
+      <td>455</td>
+      <td>926</td>
+      <td>1</td>
+      <td>7431</td>
+      <td>84</td>
+      <td>71.0</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 25 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="read-multiple-excel-sheets">
+<h2>Read Multiple Excel Sheets<a class="headerlink" href="#read-multiple-excel-sheets" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xlrd</span> 
+<span class="c1"># Import xlsx file and store each sheet in to a df list</span>
+<span class="n">xl_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelFile</span><span class="p">(</span><span class="s2">&quot;../data/data.xls&quot;</span><span class="p">,)</span>
+<span class="c1"># Dictionary comprehension</span>
+<span class="n">dfs</span> <span class="o">=</span> <span class="p">{</span><span class="n">sheet_name</span><span class="p">:</span> <span class="n">xl_file</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">sheet_name</span><span class="p">)</span> <span class="k">for</span> <span class="n">sheet_name</span> <span class="ow">in</span> <span class="n">xl_file</span><span class="o">.</span><span class="n">sheet_names</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Data from each sheet can be accessed via key</span>
+<span class="n">keylist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine the sheet name </span>
+<span class="n">keylist</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;2020-03-13-03-30&#39;,
+ &#39;2020-03-13-00-00&#39;,
+ &#39;2020-03-12-22-00&#39;,
+ &#39;2020-03-12-21-30&#39;,
+ &#39;2020-03-12-21-00&#39;,
+ &#39;2020-03-12-20-00&#39;,
+ &#39;2020-03-12-18-30&#39;,
+ &#39;2020-03-12-17-00&#39;,
+ &#39;2020-03-12-15-30&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Accessing first sheet</span>
+<span class="n">dfs</span><span class="p">[</span><span class="n">keylist</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Province/State</th>
+      <th>Country/Region</th>
+      <th>Last Update</th>
+      <th>Confirmed</th>
+      <th>Deaths</th>
+      <th>Recovered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Hubei</td>
+      <td>Mainland China</td>
+      <td>3/13/2020 06:00</td>
+      <td>67786</td>
+      <td>3062</td>
+      <td>51553</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Guangdong</td>
+      <td>Mainland China</td>
+      <td>3/13/2020 06:00</td>
+      <td>1356</td>
+      <td>8</td>
+      <td>1296</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Zhejiang</td>
+      <td>Mainland China</td>
+      <td>3/13/2020 06:00</td>
+      <td>1215</td>
+      <td>1</td>
+      <td>1209</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Shandong</td>
+      <td>Mainland China</td>
+      <td>3/13/2020 06:00</td>
+      <td>760</td>
+      <td>7</td>
+      <td>739</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Henan</td>
+      <td>Mainland China</td>
+      <td>3/13/2020 06:00</td>
+      <td>1273</td>
+      <td>22</td>
+      <td>1249</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>216</td>
+      <td>NaN</td>
+      <td>Mongolia</td>
+      <td>3/13/2020 06:00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>217</td>
+      <td>NaN</td>
+      <td>St. Barth</td>
+      <td>3/13/2020 06:00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>218</td>
+      <td>NaN</td>
+      <td>St. Vincent Grenadines</td>
+      <td>3/13/2020 06:00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>219</td>
+      <td>NaN</td>
+      <td>Togo</td>
+      <td>3/13/2020 06:00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>220</td>
+      <td>NaN</td>
+      <td>Trinidad and Tobago</td>
+      <td>3/13/2020 06:00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>221 rows × 6 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="from-url">
+<h2>From URL<a class="headerlink" href="#from-url" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read a dataset of Chipotle orders directly from a URL and store the results in a DataFrame </span>
+<span class="n">orders</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;http://bit.ly/chiporders&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the first 5 rows </span>
+<span class="n">orders</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>quantity</th>
+      <th>item_name</th>
+      <th>choice_description</th>
+      <th>item_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Chips and Fresh Tomato Salsa</td>
+      <td>NaN</td>
+      <td>$2.39</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Izze</td>
+      <td>[Clementine]</td>
+      <td>$3.39</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Nantucket Nectar</td>
+      <td>[Apple]</td>
+      <td>$3.39</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Chips and Tomatillo-Green Chili Salsa</td>
+      <td>NaN</td>
+      <td>$2.39</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Chicken Bowl</td>
+      <td>[Tomatillo-Red Chili Salsa (Hot), [Black Beans...</td>
+      <td>$16.98</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the last 5 rows </span>
+<span class="n">orders</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>quantity</th>
+      <th>item_name</th>
+      <th>choice_description</th>
+      <th>item_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4617</td>
+      <td>1833</td>
+      <td>1</td>
+      <td>Steak Burrito</td>
+      <td>[Fresh Tomato Salsa, [Rice, Black Beans, Sour ...</td>
+      <td>$11.75</td>
+    </tr>
+    <tr>
+      <td>4618</td>
+      <td>1833</td>
+      <td>1</td>
+      <td>Steak Burrito</td>
+      <td>[Fresh Tomato Salsa, [Rice, Sour Cream, Cheese...</td>
+      <td>$11.75</td>
+    </tr>
+    <tr>
+      <td>4619</td>
+      <td>1834</td>
+      <td>1</td>
+      <td>Chicken Salad Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Pinto...</td>
+      <td>$11.25</td>
+    </tr>
+    <tr>
+      <td>4620</td>
+      <td>1834</td>
+      <td>1</td>
+      <td>Chicken Salad Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Lettu...</td>
+      <td>$8.75</td>
+    </tr>
+    <tr>
+      <td>4621</td>
+      <td>1834</td>
+      <td>1</td>
+      <td>Chicken Salad Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Pinto...</td>
+      <td>$8.75</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the first `n` number of rows</span>
+<span class="n">orders</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>quantity</th>
+      <th>item_name</th>
+      <th>choice_description</th>
+      <th>item_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Chips and Fresh Tomato Salsa</td>
+      <td>NaN</td>
+      <td>$2.39</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Izze</td>
+      <td>[Clementine]</td>
+      <td>$3.39</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Nantucket Nectar</td>
+      <td>[Apple]</td>
+      <td>$3.39</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Chips and Tomatillo-Green Chili Salsa</td>
+      <td>NaN</td>
+      <td>$2.39</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2</td>
+      <td>2</td>
+      <td>Chicken Bowl</td>
+      <td>[Tomatillo-Red Chili Salsa (Hot), [Black Beans...</td>
+      <td>$16.98</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Chicken Bowl</td>
+      <td>[Fresh Tomato Salsa (Mild), [Rice, Cheese, Sou...</td>
+      <td>$10.98</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Side of Chips</td>
+      <td>NaN</td>
+      <td>$1.69</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>4</td>
+      <td>1</td>
+      <td>Steak Burrito</td>
+      <td>[Tomatillo Red Chili Salsa, [Fajita Vegetables...</td>
+      <td>$11.75</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>4</td>
+      <td>1</td>
+      <td>Steak Soft Tacos</td>
+      <td>[Tomatillo Green Chili Salsa, [Pinto Beans, Ch...</td>
+      <td>$9.25</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>5</td>
+      <td>1</td>
+      <td>Steak Burrito</td>
+      <td>[Fresh Tomato Salsa, [Rice, Black Beans, Pinto...</td>
+      <td>$9.25</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the last `n` number of rows</span>
+<span class="n">orders</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>order_id</th>
+      <th>quantity</th>
+      <th>item_name</th>
+      <th>choice_description</th>
+      <th>item_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4612</td>
+      <td>1831</td>
+      <td>1</td>
+      <td>Carnitas Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Rice,...</td>
+      <td>$9.25</td>
+    </tr>
+    <tr>
+      <td>4613</td>
+      <td>1831</td>
+      <td>1</td>
+      <td>Chips</td>
+      <td>NaN</td>
+      <td>$2.15</td>
+    </tr>
+    <tr>
+      <td>4614</td>
+      <td>1831</td>
+      <td>1</td>
+      <td>Bottled Water</td>
+      <td>NaN</td>
+      <td>$1.50</td>
+    </tr>
+    <tr>
+      <td>4615</td>
+      <td>1832</td>
+      <td>1</td>
+      <td>Chicken Soft Tacos</td>
+      <td>[Fresh Tomato Salsa, [Rice, Cheese, Sour Cream]]</td>
+      <td>$8.75</td>
+    </tr>
+    <tr>
+      <td>4616</td>
+      <td>1832</td>
+      <td>1</td>
+      <td>Chips and Guacamole</td>
+      <td>NaN</td>
+      <td>$4.45</td>
+    </tr>
+    <tr>
+      <td>4617</td>
+      <td>1833</td>
+      <td>1</td>
+      <td>Steak Burrito</td>
+      <td>[Fresh Tomato Salsa, [Rice, Black Beans, Sour ...</td>
+      <td>$11.75</td>
+    </tr>
+    <tr>
+      <td>4618</td>
+      <td>1833</td>
+      <td>1</td>
+      <td>Steak Burrito</td>
+      <td>[Fresh Tomato Salsa, [Rice, Sour Cream, Cheese...</td>
+      <td>$11.75</td>
+    </tr>
+    <tr>
+      <td>4619</td>
+      <td>1834</td>
+      <td>1</td>
+      <td>Chicken Salad Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Pinto...</td>
+      <td>$11.25</td>
+    </tr>
+    <tr>
+      <td>4620</td>
+      <td>1834</td>
+      <td>1</td>
+      <td>Chicken Salad Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Lettu...</td>
+      <td>$8.75</td>
+    </tr>
+    <tr>
+      <td>4621</td>
+      <td>1834</td>
+      <td>1</td>
+      <td>Chicken Salad Bowl</td>
+      <td>[Fresh Tomato Salsa, [Fajita Vegetables, Pinto...</td>
+      <td>$8.75</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="modify-dataset">
+<h2>Modify Dataset<a class="headerlink" href="#modify-dataset" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read a dataset of movie reviewers (modifying the default parameter values for read_table)</span>
+<span class="n">users</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;http://bit.ly//movieusers&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine the first 5 rows </span>
+<span class="n">users</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1|24|M|technician|85711</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2|53|F|other|94043</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>3|23|M|writer|32067</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>4|24|M|technician|43537</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5|33|F|other|15213</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>6|42|M|executive|98101</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DataFrame looks ugly. let&#39;s modify the default parameter for read_table </span>
+<span class="n">user_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;occupation&#39;</span><span class="p">,</span> <span class="s1">&#39;zip_code&#39;</span><span class="p">]</span>
+<span class="n">users</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;http://bit.ly//movieusers&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;|&#39;</span> <span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">user_cols</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now take a look at modified dataset</span>
+<span class="n">users</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>age</th>
+      <th>gender</th>
+      <th>occupation</th>
+      <th>zip_code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>24</td>
+      <td>M</td>
+      <td>technician</td>
+      <td>85711</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>53</td>
+      <td>F</td>
+      <td>other</td>
+      <td>94043</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+      <td>23</td>
+      <td>M</td>
+      <td>writer</td>
+      <td>32067</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td>24</td>
+      <td>M</td>
+      <td>technician</td>
+      <td>43537</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>33</td>
+      <td>F</td>
+      <td>other</td>
+      <td>15213</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="read-biological-data-txt">
+<h2>Read Biological Data(.txt)<a class="headerlink" href="#read-biological-data-txt" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read text/csv data into pandas </span>
+<span class="n">chrom</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/Encode_HMM_data.txt&quot;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Examine first few rows </span>
+<span class="n">chrom</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>chr1</td>
+      <td>10000</td>
+      <td>10600</td>
+      <td>15_Repetitive/CNV</td>
+      <td>0</td>
+      <td>.</td>
+      <td>10000</td>
+      <td>10600</td>
+      <td>245,245,245</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>chr1</td>
+      <td>10600</td>
+      <td>11137</td>
+      <td>13_Heterochrom/lo</td>
+      <td>0</td>
+      <td>.</td>
+      <td>10600</td>
+      <td>11137</td>
+      <td>245,245,245</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>chr1</td>
+      <td>11137</td>
+      <td>11737</td>
+      <td>8_Insulator</td>
+      <td>0</td>
+      <td>.</td>
+      <td>11137</td>
+      <td>11737</td>
+      <td>10,190,254</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>chr1</td>
+      <td>11737</td>
+      <td>11937</td>
+      <td>11_Weak_Txn</td>
+      <td>0</td>
+      <td>.</td>
+      <td>11737</td>
+      <td>11937</td>
+      <td>153,255,102</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>chr1</td>
+      <td>11937</td>
+      <td>12137</td>
+      <td>7_Weak_Enhancer</td>
+      <td>0</td>
+      <td>.</td>
+      <td>11937</td>
+      <td>12137</td>
+      <td>255,252,4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># it&#39;s not much better to see. so we have to modify this dataset</span>
+<span class="n">cols_name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;stop&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">]</span>
+<span class="n">chrom</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/Encode_HMM_data.txt&quot;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">cols_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now examine first few rows </span>
+<span class="n">chrom</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>chrom</th>
+      <th>start</th>
+      <th>stop</th>
+      <th>type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="5" valign="top">chr1</td>
+      <td>10000</td>
+      <td>10600</td>
+      <td>15_Repetitive/CNV</td>
+      <td>0</td>
+      <td>.</td>
+      <td>10000</td>
+      <td>10600</td>
+      <td>245,245,245</td>
+    </tr>
+    <tr>
+      <td>10600</td>
+      <td>11137</td>
+      <td>13_Heterochrom/lo</td>
+      <td>0</td>
+      <td>.</td>
+      <td>10600</td>
+      <td>11137</td>
+      <td>245,245,245</td>
+    </tr>
+    <tr>
+      <td>11137</td>
+      <td>11737</td>
+      <td>8_Insulator</td>
+      <td>0</td>
+      <td>.</td>
+      <td>11137</td>
+      <td>11737</td>
+      <td>10,190,254</td>
+    </tr>
+    <tr>
+      <td>11737</td>
+      <td>11937</td>
+      <td>11_Weak_Txn</td>
+      <td>0</td>
+      <td>.</td>
+      <td>11737</td>
+      <td>11937</td>
+      <td>153,255,102</td>
+    </tr>
+    <tr>
+      <td>11937</td>
+      <td>12137</td>
+      <td>7_Weak_Enhancer</td>
+      <td>0</td>
+      <td>.</td>
+      <td>11937</td>
+      <td>12137</td>
+      <td>255,252,4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="read-biological-data-tsv">
+<h2>Read Biological Data(.tsv)<a class="headerlink" href="#read-biological-data-tsv" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pokemon</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/pokemon.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pokemon</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Type_1</th>
+      <th>Type_2</th>
+      <th>Total</th>
+      <th>HP</th>
+      <th>Attack</th>
+      <th>Defense</th>
+      <th>Sp_Atk</th>
+      <th>Sp_Def</th>
+      <th>...</th>
+      <th>Color</th>
+      <th>hasGender</th>
+      <th>Pr_Male</th>
+      <th>Egg_Group_1</th>
+      <th>Egg_Group_2</th>
+      <th>hasMegaEvolution</th>
+      <th>Height_m</th>
+      <th>Weight_kg</th>
+      <th>Catch_Rate</th>
+      <th>Body_Style</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>Bulbasaur</td>
+      <td>Grass</td>
+      <td>Poison</td>
+      <td>318</td>
+      <td>45</td>
+      <td>49</td>
+      <td>49</td>
+      <td>65</td>
+      <td>65</td>
+      <td>...</td>
+      <td>Green</td>
+      <td>True</td>
+      <td>0.875</td>
+      <td>Monster</td>
+      <td>Grass</td>
+      <td>False</td>
+      <td>0.71</td>
+      <td>6.9</td>
+      <td>45</td>
+      <td>quadruped</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>Ivysaur</td>
+      <td>Grass</td>
+      <td>Poison</td>
+      <td>405</td>
+      <td>60</td>
+      <td>62</td>
+      <td>63</td>
+      <td>80</td>
+      <td>80</td>
+      <td>...</td>
+      <td>Green</td>
+      <td>True</td>
+      <td>0.875</td>
+      <td>Monster</td>
+      <td>Grass</td>
+      <td>False</td>
+      <td>0.99</td>
+      <td>13.0</td>
+      <td>45</td>
+      <td>quadruped</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+      <td>Venusaur</td>
+      <td>Grass</td>
+      <td>Poison</td>
+      <td>525</td>
+      <td>80</td>
+      <td>82</td>
+      <td>83</td>
+      <td>100</td>
+      <td>100</td>
+      <td>...</td>
+      <td>Green</td>
+      <td>True</td>
+      <td>0.875</td>
+      <td>Monster</td>
+      <td>Grass</td>
+      <td>True</td>
+      <td>2.01</td>
+      <td>100.0</td>
+      <td>45</td>
+      <td>quadruped</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td>Charmander</td>
+      <td>Fire</td>
+      <td>NaN</td>
+      <td>309</td>
+      <td>39</td>
+      <td>52</td>
+      <td>43</td>
+      <td>60</td>
+      <td>50</td>
+      <td>...</td>
+      <td>Red</td>
+      <td>True</td>
+      <td>0.875</td>
+      <td>Monster</td>
+      <td>Dragon</td>
+      <td>False</td>
+      <td>0.61</td>
+      <td>8.5</td>
+      <td>45</td>
+      <td>bipedal_tailed</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>Charmeleon</td>
+      <td>Fire</td>
+      <td>NaN</td>
+      <td>405</td>
+      <td>58</td>
+      <td>64</td>
+      <td>58</td>
+      <td>80</td>
+      <td>65</td>
+      <td>...</td>
+      <td>Red</td>
+      <td>True</td>
+      <td>0.875</td>
+      <td>Monster</td>
+      <td>Dragon</td>
+      <td>False</td>
+      <td>1.09</td>
+      <td>19.0</td>
+      <td>45</td>
+      <td>bipedal_tailed</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="read-html-data">
+<h2>Read HTML Data<a class="headerlink" href="#read-html-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read HTML data from web </span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://www.fdic.gov/bank/individual/failed/banklist.html&#39;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check type </span>
+<span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># access data </span>
+<span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Bank Name</th>
+      <th>City</th>
+      <th>ST</th>
+      <th>CERT</th>
+      <th>Acquiring Institution</th>
+      <th>Closing Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>The First State Bank</td>
+      <td>Barboursville</td>
+      <td>WV</td>
+      <td>14361</td>
+      <td>MVB Bank, Inc.</td>
+      <td>April 3, 2020</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Ericson State Bank</td>
+      <td>Ericson</td>
+      <td>NE</td>
+      <td>18265</td>
+      <td>Farmers and Merchants Bank</td>
+      <td>February 14, 2020</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>City National Bank of New Jersey</td>
+      <td>Newark</td>
+      <td>NJ</td>
+      <td>21111</td>
+      <td>Industrial Bank</td>
+      <td>November 1, 2019</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Resolute Bank</td>
+      <td>Maumee</td>
+      <td>OH</td>
+      <td>58317</td>
+      <td>Buckeye State Bank</td>
+      <td>October 25, 2019</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Louisa Community Bank</td>
+      <td>Louisa</td>
+      <td>KY</td>
+      <td>58112</td>
+      <td>Kentucky Farmers Bank Corporation</td>
+      <td>October 25, 2019</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>556</td>
+      <td>Superior Bank, FSB</td>
+      <td>Hinsdale</td>
+      <td>IL</td>
+      <td>32646</td>
+      <td>Superior Federal, FSB</td>
+      <td>July 27, 2001</td>
+    </tr>
+    <tr>
+      <td>557</td>
+      <td>Malta National Bank</td>
+      <td>Malta</td>
+      <td>OH</td>
+      <td>6629</td>
+      <td>North Valley Bank</td>
+      <td>May 3, 2001</td>
+    </tr>
+    <tr>
+      <td>558</td>
+      <td>First Alliance Bank &amp; Trust Co.</td>
+      <td>Manchester</td>
+      <td>NH</td>
+      <td>34264</td>
+      <td>Southern New Hampshire Bank &amp; Trust</td>
+      <td>February 2, 2001</td>
+    </tr>
+    <tr>
+      <td>559</td>
+      <td>National State Bank of Metropolis</td>
+      <td>Metropolis</td>
+      <td>IL</td>
+      <td>3815</td>
+      <td>Banterra Bank of Marion</td>
+      <td>December 14, 2000</td>
+    </tr>
+    <tr>
+      <td>560</td>
+      <td>Bank of Honolulu</td>
+      <td>Honolulu</td>
+      <td>HI</td>
+      <td>21029</td>
+      <td>Bank of the Orient</td>
+      <td>October 13, 2000</td>
+    </tr>
+  </tbody>
+</table>
+<p>561 rows × 6 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "hossainlab/pandas",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="01-Getting Started.html" title="previous page">Getting Started</a>
+    <a class='right-next' id="next-link" href="03-Exploring Data.html" title="next page">Exploring Dataset</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jubayer Hossain<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>
