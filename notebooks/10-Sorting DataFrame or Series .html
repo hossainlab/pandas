@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Methods and Attributes &#8212; Pandas for Data Analysis</title>
+    <title>Sorting DataFrame or Series &#8212; Pandas for Data Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -35,8 +35,6 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Selecting Series from DataFrame" href="05-Selecting Series from a DataFrame.html" />
-    <link rel="prev" title="Exploring Dataset" href="03-Exploring Data.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -74,7 +72,7 @@
   Data Preprocessing
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="intro.html">
    About Pandas
@@ -95,8 +93,8 @@
    Exploring Dataset
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-Methods and Attributes.html">
    Methods and Attributes
   </a>
  </li>
@@ -162,7 +160,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/04-Methods and Attributes.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/notebooks/10-Sorting DataFrame or Series .ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -199,7 +197,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/hossainlab/pandas/master?urlpath=tree/book/notebooks/04-Methods and Attributes.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/hossainlab/pandas/master?urlpath=tree/book/notebooks/10-Sorting DataFrame or Series .ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -207,7 +205,7 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/hossainlab/pandas/blob/master/book/notebooks/04-Methods and Attributes.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/hossainlab/pandas/blob/master/book/notebooks/10-Sorting DataFrame or Series .ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     alt="Interact on Colab">Colab</button></a>
@@ -236,14 +234,8 @@
         
               <div>
                 
-  <div class="section" id="methods-and-attributes">
-<h1>Methods and Attributes<a class="headerlink" href="#methods-and-attributes" title="Permalink to this headline">¶</a></h1>
-<p><strong>Remember</strong></p>
-<ul class="simple">
-<li><p>Methods ends with <strong>parentheses</strong>, while <strong>attributes</strong> don’t</p></li>
-<li><p>df.shape: Attribute</p></li>
-<li><p>df.info(): Method</p></li>
-</ul>
+  <div class="section" id="sorting-dataframe-or-series">
+<h1>Sorting DataFrame or Series<a class="headerlink" href="#sorting-dataframe-or-series" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import pandas </span>
@@ -252,17 +244,11 @@
 </div>
 </div>
 </div>
+<p><strong>Note</strong>: None of the sorting methods below affect the underlying data. (In other words, the sorting is temporary).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read a dataset of top-rated IMDb movies into a DataFrame</span>
 <span class="n">movies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;http://bit.ly/imdbratings&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example method: show the first 5 rows </span>
 <span class="n">movies</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -346,8 +332,44 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example method: calculate summary statistics</span>
-<span class="n">movies</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort the &#39;title&#39; Series in ascending order (returns a Series)</span>
+<span class="n">movies</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>542     (500) Days of Summer
+5               12 Angry Men
+201         12 Years a Slave
+698                127 Hours
+110    2001: A Space Odyssey
+Name: title, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort in descending order instead</span>
+<span class="n">movies</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>864               [Rec]
+526                Zulu
+615          Zombieland
+677              Zodiac
+955    Zero Dark Thirty
+Name: title, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort the entire DataFrame by the &#39;title&#39; Series (returns a DataFrame)</span>
+<span class="n">movies</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -371,49 +393,58 @@
     <tr style="text-align: right;">
       <th></th>
       <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
       <th>duration</th>
+      <th>actors_list</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>count</td>
-      <td>979.000000</td>
-      <td>979.000000</td>
+      <td>864</td>
+      <td>7.5</td>
+      <td>[Rec]</td>
+      <td>R</td>
+      <td>Horror</td>
+      <td>78</td>
+      <td>[u'Manuela Velasco', u'Ferran Terraza', u'Jorg...</td>
     </tr>
     <tr>
-      <td>mean</td>
-      <td>7.889785</td>
-      <td>120.979571</td>
+      <td>526</td>
+      <td>7.8</td>
+      <td>Zulu</td>
+      <td>UNRATED</td>
+      <td>Drama</td>
+      <td>138</td>
+      <td>[u'Stanley Baker', u'Jack Hawkins', u'Ulla Jac...</td>
     </tr>
     <tr>
-      <td>std</td>
-      <td>0.336069</td>
-      <td>26.218010</td>
+      <td>615</td>
+      <td>7.7</td>
+      <td>Zombieland</td>
+      <td>R</td>
+      <td>Comedy</td>
+      <td>88</td>
+      <td>[u'Jesse Eisenberg', u'Emma Stone', u'Woody Ha...</td>
     </tr>
     <tr>
-      <td>min</td>
-      <td>7.400000</td>
-      <td>64.000000</td>
+      <td>677</td>
+      <td>7.7</td>
+      <td>Zodiac</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>157</td>
+      <td>[u'Jake Gyllenhaal', u'Robert Downey Jr.', u'M...</td>
     </tr>
     <tr>
-      <td>25%</td>
-      <td>7.600000</td>
-      <td>102.000000</td>
-    </tr>
-    <tr>
-      <td>50%</td>
-      <td>7.800000</td>
-      <td>117.000000</td>
-    </tr>
-    <tr>
-      <td>75%</td>
-      <td>8.100000</td>
-      <td>134.000000</td>
-    </tr>
-    <tr>
-      <td>max</td>
-      <td>9.300000</td>
-      <td>242.000000</td>
+      <td>955</td>
+      <td>7.4</td>
+      <td>Zero Dark Thirty</td>
+      <td>R</td>
+      <td>Drama</td>
+      <td>157</td>
+      <td>[u'Jessica Chastain', u'Joel Edgerton', u'Chri...</td>
     </tr>
   </tbody>
 </table>
@@ -421,40 +452,8 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example attribute: number of rows and columns </span>
-<span class="n">movies</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(979, 6)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># example attribute: data type of each column</span>
-<span class="n">movies</span><span class="o">.</span><span class="n">dtypes</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>star_rating       float64
-title              object
-content_rating     object
-genre              object
-duration            int64
-actors_list        object
-dtype: object
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use an optional parameter to the describe method to summarize only &#39;object&#39; column</span>
-<span class="n">movies</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort the entire DataFrame by the &#39;duration&#39; Series (returns a DataFrame)</span>
+<span class="n">movies</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;duration&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -477,40 +476,227 @@ dtype: object
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>star_rating</th>
       <th>title</th>
       <th>content_rating</th>
       <th>genre</th>
+      <th>duration</th>
       <th>actors_list</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>count</td>
-      <td>979</td>
-      <td>976</td>
-      <td>979</td>
-      <td>979</td>
-    </tr>
-    <tr>
-      <td>unique</td>
-      <td>975</td>
-      <td>12</td>
-      <td>16</td>
-      <td>969</td>
-    </tr>
-    <tr>
-      <td>top</td>
-      <td>True Grit</td>
-      <td>R</td>
+      <td>476</td>
+      <td>7.8</td>
+      <td>Hamlet</td>
+      <td>PG-13</td>
       <td>Drama</td>
-      <td>[u'Daniel Radcliffe', u'Emma Watson', u'Rupert...</td>
+      <td>242</td>
+      <td>[u'Kenneth Branagh', u'Julie Christie', u'Dere...</td>
     </tr>
     <tr>
-      <td>freq</td>
+      <td>157</td>
+      <td>8.2</td>
+      <td>Gone with the Wind</td>
+      <td>G</td>
+      <td>Drama</td>
+      <td>238</td>
+      <td>[u'Clark Gable', u'Vivien Leigh', u'Thomas Mit...</td>
+    </tr>
+    <tr>
+      <td>78</td>
+      <td>8.4</td>
+      <td>Once Upon a Time in America</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>229</td>
+      <td>[u'Robert De Niro', u'James Woods', u'Elizabet...</td>
+    </tr>
+    <tr>
+      <td>142</td>
+      <td>8.3</td>
+      <td>Lagaan: Once Upon a Time in India</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>224</td>
+      <td>[u'Aamir Khan', u'Gracy Singh', u'Rachel Shell...</td>
+    </tr>
+    <tr>
+      <td>445</td>
+      <td>7.9</td>
+      <td>The Ten Commandments</td>
+      <td>APPROVED</td>
+      <td>Adventure</td>
+      <td>220</td>
+      <td>[u'Charlton Heston', u'Yul Brynner', u'Anne Ba...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort by two columns: first sort_by duration and then content_rating</span>
+<span class="n">movies</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;duration&#39;</span><span class="p">,</span> <span class="s1">&#39;content_rating&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>476</td>
+      <td>7.8</td>
+      <td>Hamlet</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>242</td>
+      <td>[u'Kenneth Branagh', u'Julie Christie', u'Dere...</td>
+    </tr>
+    <tr>
+      <td>157</td>
+      <td>8.2</td>
+      <td>Gone with the Wind</td>
+      <td>G</td>
+      <td>Drama</td>
+      <td>238</td>
+      <td>[u'Clark Gable', u'Vivien Leigh', u'Thomas Mit...</td>
+    </tr>
+    <tr>
+      <td>78</td>
+      <td>8.4</td>
+      <td>Once Upon a Time in America</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>229</td>
+      <td>[u'Robert De Niro', u'James Woods', u'Elizabet...</td>
+    </tr>
+    <tr>
+      <td>142</td>
+      <td>8.3</td>
+      <td>Lagaan: Once Upon a Time in India</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>224</td>
+      <td>[u'Aamir Khan', u'Gracy Singh', u'Rachel Shell...</td>
+    </tr>
+    <tr>
+      <td>445</td>
+      <td>7.9</td>
+      <td>The Ten Commandments</td>
+      <td>APPROVED</td>
+      <td>Adventure</td>
+      <td>220</td>
+      <td>[u'Charlton Heston', u'Yul Brynner', u'Anne Ba...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># None of the sorting methods below affect the underlying data. (In other words, the sorting is temporary). </span>
+<span class="n">movies</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>9.3</td>
+      <td>The Shawshank Redemption</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>142</td>
+      <td>[u'Tim Robbins', u'Morgan Freeman', u'Bob Gunt...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>9.2</td>
+      <td>The Godfather</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>175</td>
+      <td>[u'Marlon Brando', u'Al Pacino', u'James Caan']</td>
+    </tr>
+    <tr>
       <td>2</td>
-      <td>460</td>
-      <td>278</td>
-      <td>6</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>9.0</td>
+      <td>The Dark Knight</td>
+      <td>PG-13</td>
+      <td>Action</td>
+      <td>152</td>
+      <td>[u'Christian Bale', u'Heath Ledger', u'Aaron E...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>8.9</td>
+      <td>Pulp Fiction</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>154</td>
+      <td>[u'John Travolta', u'Uma Thurman', u'Samuel L....</td>
     </tr>
   </tbody>
 </table>
@@ -546,8 +732,6 @@ dtype: object
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="03-Exploring Data.html" title="previous page">Exploring Dataset</a>
-    <a class='right-next' id="next-link" href="05-Selecting Series from a DataFrame.html" title="next page">Selecting Series from DataFrame</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

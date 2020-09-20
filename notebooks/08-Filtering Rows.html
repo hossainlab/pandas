@@ -1,0 +1,1571 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Filtering Rows &#8212; Pandas for Data Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Handling Missing Values" href="09-Handling Missing Values.html" />
+    <link rel="prev" title="Rename and Replace" href="06-Renaming Columns and Replace Value.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Pandas for Data Analysis</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Data Preprocessing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   About Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Getting Started.html">
+   Getting Started
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Reading Data.html">
+   Reading Data into Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-Exploring Data.html">
+   Exploring Dataset
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-Methods and Attributes.html">
+   Methods and Attributes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-Selecting Series from a DataFrame.html">
+   Selecting Series from DataFrame
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Renaming Columns and Replace Value.html">
+   Rename and Replace
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Filtering Rows
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-Handling Missing Values.html">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/08-Filtering Rows.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/hossainlab/pandas/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/hossainlab/pandas/master?urlpath=tree/book/notebooks/08-Filtering Rows.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/hossainlab/pandas/blob/master/book/notebooks/08-Filtering Rows.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filtering-movies-with-for-loop">
+   Filtering Movies with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     for
+    </span>
+   </code>
+   Loop
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filtering-by-condition">
+   Filtering by Condition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filtering-in-dataframe">
+   Filtering in DataFrame
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-filtering-criteria">
+   Multiple Filtering Criteria
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="filtering-rows">
+<h1>Filtering Rows<a class="headerlink" href="#filtering-rows" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import pandas </span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read movie data </span>
+<span class="n">movies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;http://bit.ly/imdbratings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># examine first few rows </span>
+<span class="n">movies</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>9.3</td>
+      <td>The Shawshank Redemption</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>142</td>
+      <td>[u'Tim Robbins', u'Morgan Freeman', u'Bob Gunt...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>9.2</td>
+      <td>The Godfather</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>175</td>
+      <td>[u'Marlon Brando', u'Al Pacino', u'James Caan']</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>9.0</td>
+      <td>The Dark Knight</td>
+      <td>PG-13</td>
+      <td>Action</td>
+      <td>152</td>
+      <td>[u'Christian Bale', u'Heath Ledger', u'Aaron E...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>8.9</td>
+      <td>Pulp Fiction</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>154</td>
+      <td>[u'John Travolta', u'Uma Thurman', u'Samuel L....</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="filtering-movies-with-for-loop">
+<h2>Filtering Movies with <code class="docutils literal notranslate"><span class="pre">for</span></code> Loop<a class="headerlink" href="#filtering-movies-with-for-loop" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">booleans</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="k">for</span> <span class="n">length</span> <span class="ow">in</span> <span class="n">movies</span><span class="o">.</span><span class="n">duration</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">:</span> 
+        <span class="n">booleans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">booleans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check length of booleans </span>
+<span class="nb">len</span><span class="p">(</span><span class="n">booleans</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>979
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect booleans elements </span>
+<span class="n">booleans</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[False, False, True, False, False]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a pandas series </span>
+<span class="n">is_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">booleans</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inspect few values </span>
+<span class="n">is_long</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    False
+1    False
+2     True
+3    False
+4    False
+dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># show dataframe all columns in duration 200 minutes </span>
+<span class="n">movies</span><span class="p">[</span><span class="n">is_long</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8.9</td>
+      <td>The Lord of the Rings: The Return of the King</td>
+      <td>PG-13</td>
+      <td>Adventure</td>
+      <td>201</td>
+      <td>[u'Elijah Wood', u'Viggo Mortensen', u'Ian McK...</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>8.7</td>
+      <td>Seven Samurai</td>
+      <td>UNRATED</td>
+      <td>Drama</td>
+      <td>207</td>
+      <td>[u'Toshir\xf4 Mifune', u'Takashi Shimura', u'K...</td>
+    </tr>
+    <tr>
+      <td>78</td>
+      <td>8.4</td>
+      <td>Once Upon a Time in America</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>229</td>
+      <td>[u'Robert De Niro', u'James Woods', u'Elizabet...</td>
+    </tr>
+    <tr>
+      <td>85</td>
+      <td>8.4</td>
+      <td>Lawrence of Arabia</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>216</td>
+      <td>[u"Peter O'Toole", u'Alec Guinness', u'Anthony...</td>
+    </tr>
+    <tr>
+      <td>142</td>
+      <td>8.3</td>
+      <td>Lagaan: Once Upon a Time in India</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>224</td>
+      <td>[u'Aamir Khan', u'Gracy Singh', u'Rachel Shell...</td>
+    </tr>
+    <tr>
+      <td>157</td>
+      <td>8.2</td>
+      <td>Gone with the Wind</td>
+      <td>G</td>
+      <td>Drama</td>
+      <td>238</td>
+      <td>[u'Clark Gable', u'Vivien Leigh', u'Thomas Mit...</td>
+    </tr>
+    <tr>
+      <td>204</td>
+      <td>8.1</td>
+      <td>Ben-Hur</td>
+      <td>G</td>
+      <td>Adventure</td>
+      <td>212</td>
+      <td>[u'Charlton Heston', u'Jack Hawkins', u'Stephe...</td>
+    </tr>
+    <tr>
+      <td>445</td>
+      <td>7.9</td>
+      <td>The Ten Commandments</td>
+      <td>APPROVED</td>
+      <td>Adventure</td>
+      <td>220</td>
+      <td>[u'Charlton Heston', u'Yul Brynner', u'Anne Ba...</td>
+    </tr>
+    <tr>
+      <td>476</td>
+      <td>7.8</td>
+      <td>Hamlet</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>242</td>
+      <td>[u'Kenneth Branagh', u'Julie Christie', u'Dere...</td>
+    </tr>
+    <tr>
+      <td>630</td>
+      <td>7.7</td>
+      <td>Malcolm X</td>
+      <td>PG-13</td>
+      <td>Biography</td>
+      <td>202</td>
+      <td>[u'Denzel Washington', u'Angela Bassett', u'De...</td>
+    </tr>
+    <tr>
+      <td>767</td>
+      <td>7.6</td>
+      <td>It's a Mad, Mad, Mad, Mad World</td>
+      <td>APPROVED</td>
+      <td>Action</td>
+      <td>205</td>
+      <td>[u'Spencer Tracy', u'Milton Berle', u'Ethel Me...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="filtering-by-condition">
+<h2>Filtering by Condition<a class="headerlink" href="#filtering-by-condition" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filtering by conditions </span>
+<span class="n">is_long</span> <span class="o">=</span> <span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span>
+<span class="n">is_long</span><span class="o">.</span><span class="n">head</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    False
+1    False
+2     True
+3    False
+4    False
+Name: duration, dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># show the rows duration &gt;200</span>
+<span class="n">movies</span><span class="p">[</span><span class="n">is_long</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8.9</td>
+      <td>The Lord of the Rings: The Return of the King</td>
+      <td>PG-13</td>
+      <td>Adventure</td>
+      <td>201</td>
+      <td>[u'Elijah Wood', u'Viggo Mortensen', u'Ian McK...</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>8.7</td>
+      <td>Seven Samurai</td>
+      <td>UNRATED</td>
+      <td>Drama</td>
+      <td>207</td>
+      <td>[u'Toshir\xf4 Mifune', u'Takashi Shimura', u'K...</td>
+    </tr>
+    <tr>
+      <td>78</td>
+      <td>8.4</td>
+      <td>Once Upon a Time in America</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>229</td>
+      <td>[u'Robert De Niro', u'James Woods', u'Elizabet...</td>
+    </tr>
+    <tr>
+      <td>85</td>
+      <td>8.4</td>
+      <td>Lawrence of Arabia</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>216</td>
+      <td>[u"Peter O'Toole", u'Alec Guinness', u'Anthony...</td>
+    </tr>
+    <tr>
+      <td>142</td>
+      <td>8.3</td>
+      <td>Lagaan: Once Upon a Time in India</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>224</td>
+      <td>[u'Aamir Khan', u'Gracy Singh', u'Rachel Shell...</td>
+    </tr>
+    <tr>
+      <td>157</td>
+      <td>8.2</td>
+      <td>Gone with the Wind</td>
+      <td>G</td>
+      <td>Drama</td>
+      <td>238</td>
+      <td>[u'Clark Gable', u'Vivien Leigh', u'Thomas Mit...</td>
+    </tr>
+    <tr>
+      <td>204</td>
+      <td>8.1</td>
+      <td>Ben-Hur</td>
+      <td>G</td>
+      <td>Adventure</td>
+      <td>212</td>
+      <td>[u'Charlton Heston', u'Jack Hawkins', u'Stephe...</td>
+    </tr>
+    <tr>
+      <td>445</td>
+      <td>7.9</td>
+      <td>The Ten Commandments</td>
+      <td>APPROVED</td>
+      <td>Adventure</td>
+      <td>220</td>
+      <td>[u'Charlton Heston', u'Yul Brynner', u'Anne Ba...</td>
+    </tr>
+    <tr>
+      <td>476</td>
+      <td>7.8</td>
+      <td>Hamlet</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>242</td>
+      <td>[u'Kenneth Branagh', u'Julie Christie', u'Dere...</td>
+    </tr>
+    <tr>
+      <td>630</td>
+      <td>7.7</td>
+      <td>Malcolm X</td>
+      <td>PG-13</td>
+      <td>Biography</td>
+      <td>202</td>
+      <td>[u'Denzel Washington', u'Angela Bassett', u'De...</td>
+    </tr>
+    <tr>
+      <td>767</td>
+      <td>7.6</td>
+      <td>It's a Mad, Mad, Mad, Mad World</td>
+      <td>APPROVED</td>
+      <td>Action</td>
+      <td>205</td>
+      <td>[u'Spencer Tracy', u'Milton Berle', u'Ethel Me...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="filtering-in-dataframe">
+<h2>Filtering in DataFrame<a class="headerlink" href="#filtering-in-dataframe" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filtering by columns </span>
+<span class="n">movies</span><span class="p">[</span><span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8.9</td>
+      <td>The Lord of the Rings: The Return of the King</td>
+      <td>PG-13</td>
+      <td>Adventure</td>
+      <td>201</td>
+      <td>[u'Elijah Wood', u'Viggo Mortensen', u'Ian McK...</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>8.7</td>
+      <td>Seven Samurai</td>
+      <td>UNRATED</td>
+      <td>Drama</td>
+      <td>207</td>
+      <td>[u'Toshir\xf4 Mifune', u'Takashi Shimura', u'K...</td>
+    </tr>
+    <tr>
+      <td>78</td>
+      <td>8.4</td>
+      <td>Once Upon a Time in America</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>229</td>
+      <td>[u'Robert De Niro', u'James Woods', u'Elizabet...</td>
+    </tr>
+    <tr>
+      <td>85</td>
+      <td>8.4</td>
+      <td>Lawrence of Arabia</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>216</td>
+      <td>[u"Peter O'Toole", u'Alec Guinness', u'Anthony...</td>
+    </tr>
+    <tr>
+      <td>142</td>
+      <td>8.3</td>
+      <td>Lagaan: Once Upon a Time in India</td>
+      <td>PG</td>
+      <td>Adventure</td>
+      <td>224</td>
+      <td>[u'Aamir Khan', u'Gracy Singh', u'Rachel Shell...</td>
+    </tr>
+    <tr>
+      <td>157</td>
+      <td>8.2</td>
+      <td>Gone with the Wind</td>
+      <td>G</td>
+      <td>Drama</td>
+      <td>238</td>
+      <td>[u'Clark Gable', u'Vivien Leigh', u'Thomas Mit...</td>
+    </tr>
+    <tr>
+      <td>204</td>
+      <td>8.1</td>
+      <td>Ben-Hur</td>
+      <td>G</td>
+      <td>Adventure</td>
+      <td>212</td>
+      <td>[u'Charlton Heston', u'Jack Hawkins', u'Stephe...</td>
+    </tr>
+    <tr>
+      <td>445</td>
+      <td>7.9</td>
+      <td>The Ten Commandments</td>
+      <td>APPROVED</td>
+      <td>Adventure</td>
+      <td>220</td>
+      <td>[u'Charlton Heston', u'Yul Brynner', u'Anne Ba...</td>
+    </tr>
+    <tr>
+      <td>476</td>
+      <td>7.8</td>
+      <td>Hamlet</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>242</td>
+      <td>[u'Kenneth Branagh', u'Julie Christie', u'Dere...</td>
+    </tr>
+    <tr>
+      <td>630</td>
+      <td>7.7</td>
+      <td>Malcolm X</td>
+      <td>PG-13</td>
+      <td>Biography</td>
+      <td>202</td>
+      <td>[u'Denzel Washington', u'Angela Bassett', u'De...</td>
+    </tr>
+    <tr>
+      <td>767</td>
+      <td>7.6</td>
+      <td>It's a Mad, Mad, Mad, Mad World</td>
+      <td>APPROVED</td>
+      <td>Action</td>
+      <td>205</td>
+      <td>[u'Spencer Tracy', u'Milton Berle', u'Ethel Me...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># select only genre</span>
+<span class="n">movies</span><span class="p">[</span><span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">]</span><span class="o">.</span><span class="n">genre</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2          Crime
+7      Adventure
+17         Drama
+78         Crime
+85     Adventure
+142    Adventure
+157        Drama
+204    Adventure
+445    Adventure
+476        Drama
+630    Biography
+767       Action
+Name: genre, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># same as above </span>
+<span class="n">movies</span><span class="p">[</span><span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">][</span><span class="s1">&#39;genre&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2          Crime
+7      Adventure
+17         Drama
+78         Crime
+85     Adventure
+142    Adventure
+157        Drama
+204    Adventure
+445    Adventure
+476        Drama
+630    Biography
+767       Action
+Name: genre, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># select columns by label </span>
+<span class="n">movies</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;genre&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2          Crime
+7      Adventure
+17         Drama
+78         Crime
+85     Adventure
+142    Adventure
+157        Drama
+204    Adventure
+445    Adventure
+476        Drama
+630    Biography
+767       Action
+Name: genre, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="multiple-filtering-criteria">
+<h2>Multiple Filtering Criteria<a class="headerlink" href="#multiple-filtering-criteria" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>True and True == True</p></li>
+<li><p>True and False == False</p></li>
+<li><p>True or True == True</p></li>
+<li><p>True or False == True</p></li>
+<li><p>False or False == False</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span> <span class="ow">and</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span> <span class="ow">and</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiple criteria </span>
+<span class="n">movies</span><span class="p">[(</span><span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">movies</span><span class="o">.</span><span class="n">genre</span> <span class="o">==</span> <span class="s1">&#39;Drama&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>17</td>
+      <td>8.7</td>
+      <td>Seven Samurai</td>
+      <td>UNRATED</td>
+      <td>Drama</td>
+      <td>207</td>
+      <td>[u'Toshir\xf4 Mifune', u'Takashi Shimura', u'K...</td>
+    </tr>
+    <tr>
+      <td>157</td>
+      <td>8.2</td>
+      <td>Gone with the Wind</td>
+      <td>G</td>
+      <td>Drama</td>
+      <td>238</td>
+      <td>[u'Clark Gable', u'Vivien Leigh', u'Thomas Mit...</td>
+    </tr>
+    <tr>
+      <td>476</td>
+      <td>7.8</td>
+      <td>Hamlet</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>242</td>
+      <td>[u'Kenneth Branagh', u'Julie Christie', u'Dere...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiple criteria </span>
+<span class="n">movies</span><span class="p">[(</span><span class="n">movies</span><span class="o">.</span><span class="n">duration</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">movies</span><span class="o">.</span><span class="n">genre</span> <span class="o">==</span> <span class="s1">&#39;Drama&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>8.9</td>
+      <td>12 Angry Men</td>
+      <td>NOT RATED</td>
+      <td>Drama</td>
+      <td>96</td>
+      <td>[u'Henry Fonda', u'Lee J. Cobb', u'Martin Bals...</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8.9</td>
+      <td>The Lord of the Rings: The Return of the King</td>
+      <td>PG-13</td>
+      <td>Adventure</td>
+      <td>201</td>
+      <td>[u'Elijah Wood', u'Viggo Mortensen', u'Ian McK...</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>8.9</td>
+      <td>Fight Club</td>
+      <td>R</td>
+      <td>Drama</td>
+      <td>139</td>
+      <td>[u'Brad Pitt', u'Edward Norton', u'Helena Bonh...</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>8.8</td>
+      <td>Forrest Gump</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>142</td>
+      <td>[u'Tom Hanks', u'Robin Wright', u'Gary Sinise']</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>958</td>
+      <td>7.4</td>
+      <td>My Sister's Keeper</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>109</td>
+      <td>[u'Cameron Diaz', u'Abigail Breslin', u'Alec B...</td>
+    </tr>
+    <tr>
+      <td>968</td>
+      <td>7.4</td>
+      <td>The English Patient</td>
+      <td>R</td>
+      <td>Drama</td>
+      <td>162</td>
+      <td>[u'Ralph Fiennes', u'Juliette Binoche', u'Will...</td>
+    </tr>
+    <tr>
+      <td>970</td>
+      <td>7.4</td>
+      <td>Wonder Boys</td>
+      <td>R</td>
+      <td>Drama</td>
+      <td>107</td>
+      <td>[u'Michael Douglas', u'Tobey Maguire', u'Franc...</td>
+    </tr>
+    <tr>
+      <td>972</td>
+      <td>7.4</td>
+      <td>Blue Valentine</td>
+      <td>NC-17</td>
+      <td>Drama</td>
+      <td>112</td>
+      <td>[u'Ryan Gosling', u'Michelle Williams', u'John...</td>
+    </tr>
+    <tr>
+      <td>973</td>
+      <td>7.4</td>
+      <td>The Cider House Rules</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>126</td>
+      <td>[u'Tobey Maguire', u'Charlize Theron', u'Micha...</td>
+    </tr>
+  </tbody>
+</table>
+<p>287 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiple or conditions </span>
+<span class="n">movies</span><span class="p">[(</span><span class="n">movies</span><span class="o">.</span><span class="n">genre</span> <span class="o">==</span> <span class="s2">&quot;Crime&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">movies</span><span class="o">.</span><span class="n">genre</span> <span class="o">==</span> <span class="s1">&#39;Drama&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">movies</span><span class="o">.</span><span class="n">genre</span> <span class="o">==</span> <span class="s2">&quot;Action&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>9.3</td>
+      <td>The Shawshank Redemption</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>142</td>
+      <td>[u'Tim Robbins', u'Morgan Freeman', u'Bob Gunt...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>9.2</td>
+      <td>The Godfather</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>175</td>
+      <td>[u'Marlon Brando', u'Al Pacino', u'James Caan']</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>9.0</td>
+      <td>The Dark Knight</td>
+      <td>PG-13</td>
+      <td>Action</td>
+      <td>152</td>
+      <td>[u'Christian Bale', u'Heath Ledger', u'Aaron E...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>8.9</td>
+      <td>Pulp Fiction</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>154</td>
+      <td>[u'John Travolta', u'Uma Thurman', u'Samuel L....</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>970</td>
+      <td>7.4</td>
+      <td>Wonder Boys</td>
+      <td>R</td>
+      <td>Drama</td>
+      <td>107</td>
+      <td>[u'Michael Douglas', u'Tobey Maguire', u'Franc...</td>
+    </tr>
+    <tr>
+      <td>972</td>
+      <td>7.4</td>
+      <td>Blue Valentine</td>
+      <td>NC-17</td>
+      <td>Drama</td>
+      <td>112</td>
+      <td>[u'Ryan Gosling', u'Michelle Williams', u'John...</td>
+    </tr>
+    <tr>
+      <td>973</td>
+      <td>7.4</td>
+      <td>The Cider House Rules</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>126</td>
+      <td>[u'Tobey Maguire', u'Charlize Theron', u'Micha...</td>
+    </tr>
+    <tr>
+      <td>976</td>
+      <td>7.4</td>
+      <td>Master and Commander: The Far Side of the World</td>
+      <td>PG-13</td>
+      <td>Action</td>
+      <td>138</td>
+      <td>[u'Russell Crowe', u'Paul Bettany', u'Billy Bo...</td>
+    </tr>
+    <tr>
+      <td>978</td>
+      <td>7.4</td>
+      <td>Wall Street</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>126</td>
+      <td>[u'Charlie Sheen', u'Michael Douglas', u'Tamar...</td>
+    </tr>
+  </tbody>
+</table>
+<p>538 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># multiple or using isin() method </span>
+<span class="n">movies</span><span class="o">.</span><span class="n">genre</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;Drama&quot;</span><span class="p">,</span> <span class="s2">&quot;Action&quot;</span><span class="p">,</span> <span class="s2">&quot;Crime&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       True
+1       True
+2       True
+3       True
+4       True
+       ...  
+974    False
+975    False
+976     True
+977    False
+978     True
+Name: genre, Length: 979, dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pass the series in DataFrame </span>
+<span class="n">movies</span><span class="p">[</span><span class="n">movies</span><span class="o">.</span><span class="n">genre</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;Drama&quot;</span><span class="p">,</span> <span class="s2">&quot;Action&quot;</span><span class="p">,</span> <span class="s2">&quot;Crime&quot;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_rating</th>
+      <th>title</th>
+      <th>content_rating</th>
+      <th>genre</th>
+      <th>duration</th>
+      <th>actors_list</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>9.3</td>
+      <td>The Shawshank Redemption</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>142</td>
+      <td>[u'Tim Robbins', u'Morgan Freeman', u'Bob Gunt...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>9.2</td>
+      <td>The Godfather</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>175</td>
+      <td>[u'Marlon Brando', u'Al Pacino', u'James Caan']</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>9.1</td>
+      <td>The Godfather: Part II</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>200</td>
+      <td>[u'Al Pacino', u'Robert De Niro', u'Robert Duv...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>9.0</td>
+      <td>The Dark Knight</td>
+      <td>PG-13</td>
+      <td>Action</td>
+      <td>152</td>
+      <td>[u'Christian Bale', u'Heath Ledger', u'Aaron E...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>8.9</td>
+      <td>Pulp Fiction</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>154</td>
+      <td>[u'John Travolta', u'Uma Thurman', u'Samuel L....</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>970</td>
+      <td>7.4</td>
+      <td>Wonder Boys</td>
+      <td>R</td>
+      <td>Drama</td>
+      <td>107</td>
+      <td>[u'Michael Douglas', u'Tobey Maguire', u'Franc...</td>
+    </tr>
+    <tr>
+      <td>972</td>
+      <td>7.4</td>
+      <td>Blue Valentine</td>
+      <td>NC-17</td>
+      <td>Drama</td>
+      <td>112</td>
+      <td>[u'Ryan Gosling', u'Michelle Williams', u'John...</td>
+    </tr>
+    <tr>
+      <td>973</td>
+      <td>7.4</td>
+      <td>The Cider House Rules</td>
+      <td>PG-13</td>
+      <td>Drama</td>
+      <td>126</td>
+      <td>[u'Tobey Maguire', u'Charlize Theron', u'Micha...</td>
+    </tr>
+    <tr>
+      <td>976</td>
+      <td>7.4</td>
+      <td>Master and Commander: The Far Side of the World</td>
+      <td>PG-13</td>
+      <td>Action</td>
+      <td>138</td>
+      <td>[u'Russell Crowe', u'Paul Bettany', u'Billy Bo...</td>
+    </tr>
+    <tr>
+      <td>978</td>
+      <td>7.4</td>
+      <td>Wall Street</td>
+      <td>R</td>
+      <td>Crime</td>
+      <td>126</td>
+      <td>[u'Charlie Sheen', u'Michael Douglas', u'Tamar...</td>
+    </tr>
+  </tbody>
+</table>
+<p>538 rows × 6 columns</p>
+</div></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "hossainlab/pandas",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="06-Renaming Columns and Replace Value.html" title="previous page">Rename and Replace</a>
+    <a class='right-next' id="next-link" href="09-Handling Missing Values.html" title="next page">Handling Missing Values</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jubayer Hossain<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>

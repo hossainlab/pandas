@@ -1,0 +1,1145 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Handling Missing Values &#8212; Pandas for Data Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Filtering Rows" href="08-Filtering Rows.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Pandas for Data Analysis</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Data Preprocessing
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   About Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-Getting Started.html">
+   Getting Started
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02-Reading Data.html">
+   Reading Data into Pandas
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03-Exploring Data.html">
+   Exploring Dataset
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04-Methods and Attributes.html">
+   Methods and Attributes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="05-Selecting Series from a DataFrame.html">
+   Selecting Series from DataFrame
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="06-Renaming Columns and Replace Value.html">
+   Rename and Replace
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="08-Filtering Rows.html">
+   Filtering Rows
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Handling Missing Values
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/09-Handling Missing Values.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/hossainlab/pandas/"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/hossainlab/pandas/master?urlpath=tree/book/notebooks/09-Handling Missing Values.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/hossainlab/pandas/blob/master/book/notebooks/09-Handling Missing Values.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#drop-missing-values">
+   Drop Missing Values
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#filling-missing-values">
+   Filling Missing Values
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="handling-missing-values">
+<h1>Handling Missing Values<a class="headerlink" href="#handling-missing-values" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import pandas </span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read ufo data </span>
+<span class="n">ufo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;http://bit.ly/uforeports&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># last 5 rows </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>City</th>
+      <th>Colors Reported</th>
+      <th>Shape Reported</th>
+      <th>State</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>18236</td>
+      <td>Grant Park</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>IL</td>
+      <td>12/31/2000 23:00</td>
+    </tr>
+    <tr>
+      <td>18237</td>
+      <td>Spirit Lake</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>IA</td>
+      <td>12/31/2000 23:00</td>
+    </tr>
+    <tr>
+      <td>18238</td>
+      <td>Eagle River</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>WI</td>
+      <td>12/31/2000 23:45</td>
+    </tr>
+    <tr>
+      <td>18239</td>
+      <td>Eagle River</td>
+      <td>RED</td>
+      <td>LIGHT</td>
+      <td>WI</td>
+      <td>12/31/2000 23:45</td>
+    </tr>
+    <tr>
+      <td>18240</td>
+      <td>Ybor</td>
+      <td>NaN</td>
+      <td>OVAL</td>
+      <td>FL</td>
+      <td>12/31/2000 23:59</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check missing values </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>City</th>
+      <th>Colors Reported</th>
+      <th>Shape Reported</th>
+      <th>State</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>18236</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>18237</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>18238</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>18239</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <td>18240</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>18241 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p><strong>Note</strong></p>
+<ol class="simple">
+<li><p>True: Missing</p></li>
+<li><p>False: Not Missing</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># using notnull() </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>City</th>
+      <th>Colors Reported</th>
+      <th>Shape Reported</th>
+      <th>State</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>18236</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>18237</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>18238</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>18239</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>18240</td>
+      <td>True</td>
+      <td>False</td>
+      <td>True</td>
+      <td>True</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>18241 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p><strong>Note</strong></p>
+<ol class="simple">
+<li><p>axis = 0: Rows</p></li>
+<li><p>axis = 1: Columns</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sum of missing values: by default axis = 0</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>City                  25
+Colors Reported    15359
+Shape Reported      2644
+State                  0
+Time                   0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s create a series </span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filtering using isnull() </span>
+<span class="n">ufo</span><span class="p">[</span><span class="n">ufo</span><span class="o">.</span><span class="n">City</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>City</th>
+      <th>Colors Reported</th>
+      <th>Shape Reported</th>
+      <th>State</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>21</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>LA</td>
+      <td>8/15/1943 0:00</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>LIGHT</td>
+      <td>LA</td>
+      <td>8/15/1943 0:00</td>
+    </tr>
+    <tr>
+      <td>204</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>CA</td>
+      <td>7/15/1952 12:30</td>
+    </tr>
+    <tr>
+      <td>241</td>
+      <td>NaN</td>
+      <td>BLUE</td>
+      <td>DISK</td>
+      <td>MT</td>
+      <td>7/4/1953 14:00</td>
+    </tr>
+    <tr>
+      <td>613</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DISK</td>
+      <td>NV</td>
+      <td>7/1/1960 12:00</td>
+    </tr>
+    <tr>
+      <td>1877</td>
+      <td>NaN</td>
+      <td>YELLOW</td>
+      <td>CIRCLE</td>
+      <td>AZ</td>
+      <td>8/15/1969 1:00</td>
+    </tr>
+    <tr>
+      <td>2013</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NH</td>
+      <td>8/1/1970 9:30</td>
+    </tr>
+    <tr>
+      <td>2546</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>FIREBALL</td>
+      <td>OH</td>
+      <td>10/25/1973 23:30</td>
+    </tr>
+    <tr>
+      <td>3123</td>
+      <td>NaN</td>
+      <td>RED</td>
+      <td>TRIANGLE</td>
+      <td>WV</td>
+      <td>11/25/1975 23:00</td>
+    </tr>
+    <tr>
+      <td>4736</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>SPHERE</td>
+      <td>CA</td>
+      <td>6/23/1982 23:00</td>
+    </tr>
+    <tr>
+      <td>5269</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>AZ</td>
+      <td>6/30/1985 21:30</td>
+    </tr>
+    <tr>
+      <td>6735</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>FORMATION</td>
+      <td>TX</td>
+      <td>4/1/1992 2:00</td>
+    </tr>
+    <tr>
+      <td>7208</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CIRCLE</td>
+      <td>MI</td>
+      <td>10/4/1993 17:30</td>
+    </tr>
+    <tr>
+      <td>8828</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>WA</td>
+      <td>10/30/1995 21:30</td>
+    </tr>
+    <tr>
+      <td>8967</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>VARIOUS</td>
+      <td>CA</td>
+      <td>12/8/1995 18:00</td>
+    </tr>
+    <tr>
+      <td>9273</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>OH</td>
+      <td>5/1/1996 3:00</td>
+    </tr>
+    <tr>
+      <td>9388</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>OVAL</td>
+      <td>CA</td>
+      <td>6/12/1996 12:00</td>
+    </tr>
+    <tr>
+      <td>9587</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>EGG</td>
+      <td>FL</td>
+      <td>8/24/1996 15:00</td>
+    </tr>
+    <tr>
+      <td>10399</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TRIANGLE</td>
+      <td>IL</td>
+      <td>6/15/1997 23:00</td>
+    </tr>
+    <tr>
+      <td>11625</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CIRCLE</td>
+      <td>TX</td>
+      <td>6/7/1998 7:00</td>
+    </tr>
+    <tr>
+      <td>12441</td>
+      <td>NaN</td>
+      <td>RED</td>
+      <td>FIREBALL</td>
+      <td>WA</td>
+      <td>10/26/1998 17:58</td>
+    </tr>
+    <tr>
+      <td>15767</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>RECTANGLE</td>
+      <td>NV</td>
+      <td>1/21/2000 11:30</td>
+    </tr>
+    <tr>
+      <td>15812</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>LIGHT</td>
+      <td>NV</td>
+      <td>2/2/2000 3:00</td>
+    </tr>
+    <tr>
+      <td>16054</td>
+      <td>NaN</td>
+      <td>GREEN</td>
+      <td>NaN</td>
+      <td>FL</td>
+      <td>3/11/2000 3:30</td>
+    </tr>
+    <tr>
+      <td>16608</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>SPHERE</td>
+      <td>NY</td>
+      <td>6/15/2000 15:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check specific column</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">City</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="drop-missing-values">
+<h2>Drop Missing Values<a class="headerlink" href="#drop-missing-values" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># shape </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">shape</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18241, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># drop missing: drop row contains missing values </span>
+<span class="c1"># it is inplace = False </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2486, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># how=all </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18241, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># subset: any </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;City&#39;</span><span class="p">,</span> <span class="s1">&#39;Shape Reported&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(15576, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># subset: all </span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;City&#39;</span><span class="p">,</span> <span class="s1">&#39;Shape Reported&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18237, 5)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="filling-missing-values">
+<h2>Filling Missing Values<a class="headerlink" href="#filling-missing-values" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># value counts: by default drop = True </span>
+<span class="n">ufo</span><span class="p">[</span><span class="s2">&quot;Shape Reported&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LIGHT        2803
+DISK         2122
+TRIANGLE     1889
+OTHER        1402
+CIRCLE       1365
+SPHERE       1054
+FIREBALL     1039
+OVAL          845
+CIGAR         617
+FORMATION     434
+VARIOUS       333
+RECTANGLE     303
+CYLINDER      294
+CHEVRON       248
+DIAMOND       234
+EGG           197
+FLASH         188
+TEARDROP      119
+CONE           60
+CROSS          36
+DELTA           7
+ROUND           2
+CRESCENT        2
+PYRAMID         1
+HEXAGON         1
+DOME            1
+FLARE           1
+Name: Shape Reported, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># value counts: false </span>
+<span class="n">ufo</span><span class="p">[</span><span class="s2">&quot;Shape Reported&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LIGHT        2803
+NaN          2644
+DISK         2122
+TRIANGLE     1889
+OTHER        1402
+CIRCLE       1365
+SPHERE       1054
+FIREBALL     1039
+OVAL          845
+CIGAR         617
+FORMATION     434
+VARIOUS       333
+RECTANGLE     303
+CYLINDER      294
+CHEVRON       248
+DIAMOND       234
+EGG           197
+FLASH         188
+TEARDROP      119
+CONE           60
+CROSS          36
+DELTA           7
+CRESCENT        2
+ROUND           2
+PYRAMID         1
+DOME            1
+FLARE           1
+HEXAGON         1
+Name: Shape Reported, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fillna() </span>
+<span class="n">ufo</span><span class="p">[</span><span class="s2">&quot;Shape Reported&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;VARIOUS&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now take a look </span>
+<span class="n">ufo</span><span class="p">[</span><span class="s2">&quot;Shape Reported&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VARIOUS      2977
+LIGHT        2803
+DISK         2122
+TRIANGLE     1889
+OTHER        1402
+CIRCLE       1365
+SPHERE       1054
+FIREBALL     1039
+OVAL          845
+CIGAR         617
+FORMATION     434
+RECTANGLE     303
+CYLINDER      294
+CHEVRON       248
+DIAMOND       234
+EGG           197
+FLASH         188
+TEARDROP      119
+CONE           60
+CROSS          36
+DELTA           7
+CRESCENT        2
+ROUND           2
+PYRAMID         1
+HEXAGON         1
+DOME            1
+FLARE           1
+Name: Shape Reported, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "hossainlab/pandas",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="08-Filtering Rows.html" title="previous page">Filtering Rows</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jubayer Hossain<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>

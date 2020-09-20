@@ -35,7 +35,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Renaming Columns" href="06-Renaming Columns and Replace Value.html" />
+    <link rel="next" title="Rename and Replace" href="06-Renaming Columns and Replace Value.html" />
     <link rel="prev" title="Methods and Attributes" href="04-Methods and Attributes.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,7 +71,7 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <p class="caption">
  <span class="caption-text">
-  Basics
+  Data Preprocessing
  </span>
 </p>
 <ul class="current nav sidenav_l1">
@@ -106,23 +106,18 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="#single-series">
-   Single Series
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#multiple-series">
-   Multiple Series
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="06-Renaming Columns and Replace Value.html">
-   Renaming Columns
+   Rename and Replace
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="06-Renaming Columns and Replace Value.html#replace">
-   Replace
+  <a class="reference internal" href="08-Filtering Rows.html">
+   Filtering Rows
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-Handling Missing Values.html">
+   Handling Missing Values
   </a>
  </li>
 </ul>
@@ -232,7 +227,19 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-series">
+   Single Series
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiple-series">
+   Multiple Series
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -243,9 +250,8 @@
                 
   <div class="section" id="selecting-series-from-dataframe">
 <h1>Selecting Series from DataFrame<a class="headerlink" href="#selecting-series-from-dataframe" title="Permalink to this headline">¶</a></h1>
-</div>
 <div class="section" id="single-series">
-<h1>Single Series<a class="headerlink" href="#single-series" title="Permalink to this headline">¶</a></h1>
+<h2>Single Series<a class="headerlink" href="#single-series" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># conventional way to import pandas</span>
@@ -492,7 +498,7 @@ Name: City, Length: 18241, dtype: object
 </div>
 </div>
 <div class="section" id="multiple-series">
-<h1>Multiple Series<a class="headerlink" href="#multiple-series" title="Permalink to this headline">¶</a></h1>
+<h2>Multiple Series<a class="headerlink" href="#multiple-series" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># select multiple series from dataframe </span>
@@ -597,6 +603,7 @@ Name: City, Length: 18241, dtype: object
 </div></div></div>
 </div>
 </div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -627,7 +634,7 @@ Name: City, Length: 18241, dtype: object
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="04-Methods and Attributes.html" title="previous page">Methods and Attributes</a>
-    <a class='right-next' id="next-link" href="06-Renaming Columns and Replace Value.html" title="next page">Renaming Columns</a>
+    <a class='right-next' id="next-link" href="06-Renaming Columns and Replace Value.html" title="next page">Rename and Replace</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
