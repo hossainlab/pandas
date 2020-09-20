@@ -1,4 +1,25 @@
-# Pandas for Data Analysis 
+# Pandas for Data Analysis
+
+## About Pandas
+
+## What is Pandas?
+The Pandas library is built on NumPy and provides easy-to-use data structures and data analysis tools for the Python programming language.
+
+## Pandas Series
+A **one-dimensional** labeled array a capable of holding any data type
+
+## Pandas DataFrame
+A **two-dimensional** labeled data structure with columns of potentially different types
+
+## Advantages of Pandas
+- Data representation
+- Less writing and more work done
+- An extensive set of features
+- Efficiently handles large data
+- Makes data flexible and customizable
+- Made for Python
+
+
 
 ## Datasets
 Filename | Description | Raw File | Original Source | Other
@@ -13,16 +34,16 @@ Filename | Description | Raw File | Original Source | Other
 [ufo.csv](data/ufo.csv) | Reports of UFO sightings from 1930-2000 | [bit.ly/uforeports](http://bit.ly/uforeports) | [National UFO Reporting Center](http://www.nuforc.org/webreports.html) | [Web scraping script](https://github.com/josiahdavis/josiahdavis.github.io/blob/master/supporting%20material/get_ufo_data.py)
 
 
-### How to create your own Jupyter Book
+## How to create your own Jupyter Book
 
 1. `conda env create -f environment.yml`
 2. `conda activate dsn-template`
 
-### Building a Jupyter Book
+## Building a Jupyter Book
 
 Run the following command in your terminal: `jb build book/`.
 If you would like to work with a clean build, you can empty the build folder by running `jb clean book/`. If the jupyter execution is cached, this command will not delete the cached folder. To remove the build folder, you can run `jb clean --all book/`.
 
-### Publishing this Jupyter Book
+## Publishing this Jupyter Book
 
 Run `ghp-import -n -p -f book/_build/html`

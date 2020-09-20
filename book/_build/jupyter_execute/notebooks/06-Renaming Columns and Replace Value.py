@@ -1,4 +1,4 @@
-## Renaming Columns
+# Rename and Replace 
 
 import pandas as pd 
 
@@ -10,6 +10,8 @@ ufo.head()
 
 # examine the column names 
 ufo.columns
+
+## Rename 
 
 # rename two of the columns by useing `rename` method
 ufo.rename(columns={'Colors Reported': 'Colors_Reported', 'Shape Reported': 'Shape_Reported'}, inplace=True)
@@ -35,7 +37,7 @@ ufo.columns
 # let's look at DataFrame
 ufo.head()
 
-# Replace
+## Replace
 
 # read another dataset 
 fm = pd.read_csv("../data/framingham.csv")

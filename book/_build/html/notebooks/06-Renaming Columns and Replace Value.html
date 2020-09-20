@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Renaming Columns &#8212; Pandas for Data Analysis</title>
+    <title>Rename and Replace &#8212; Pandas for Data Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -35,6 +35,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Filtering Rows" href="08-Filtering Rows.html" />
     <link rel="prev" title="Selecting Series from DataFrame" href="05-Selecting Series from a DataFrame.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,7 +71,7 @@
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <p class="caption">
  <span class="caption-text">
-  Basics
+  Data Preprocessing
  </span>
 </p>
 <ul class="current nav sidenav_l1">
@@ -104,24 +105,19 @@
    Selecting Series from DataFrame
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-Selecting Series from a DataFrame.html#single-series">
-   Single Series
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="05-Selecting Series from a DataFrame.html#multiple-series">
-   Multiple Series
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Renaming Columns
+   Rename and Replace
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="#replace">
-   Replace
+  <a class="reference internal" href="08-Filtering Rows.html">
+   Filtering Rows
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="09-Handling Missing Values.html">
+   Handling Missing Values
   </a>
  </li>
 </ul>
@@ -231,7 +227,24 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rename">
+   Rename
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#replace">
+   Replace
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#replace-value-for-better-understanding-of-dataset">
+   Replace Value for Better Understanding of Dataset
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -240,8 +253,8 @@
         
               <div>
                 
-  <div class="section" id="renaming-columns">
-<h1>Renaming Columns<a class="headerlink" href="#renaming-columns" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="rename-and-replace">
+<h1>Rename and Replace<a class="headerlink" href="#rename-and-replace" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
@@ -348,6 +361,8 @@
 </div>
 </div>
 </div>
+<div class="section" id="rename">
+<h2>Rename<a class="headerlink" href="#rename" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># rename two of the columns by useing `rename` method</span>
@@ -629,7 +644,7 @@
 </div>
 </div>
 <div class="section" id="replace">
-<h1>Replace<a class="headerlink" href="#replace" title="Permalink to this headline">¶</a></h1>
+<h2>Replace<a class="headerlink" href="#replace" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read another dataset </span>
@@ -934,6 +949,7 @@
 </table>
 </div></div></div>
 </div>
+</div>
 <div class="section" id="replace-value-for-better-understanding-of-dataset">
 <h2>Replace Value for Better Understanding of Dataset<a class="headerlink" href="#replace-value-for-better-understanding-of-dataset" title="Permalink to this headline">¶</a></h2>
 <p><strong>sex</strong></p>
@@ -1138,6 +1154,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="05-Selecting Series from a DataFrame.html" title="previous page">Selecting Series from DataFrame</a>
+    <a class='right-next' id="next-link" href="08-Filtering Rows.html" title="next page">Filtering Rows</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

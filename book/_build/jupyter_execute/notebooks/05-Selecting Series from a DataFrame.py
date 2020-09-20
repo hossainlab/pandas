@@ -1,4 +1,4 @@
-## Selecting Series from DataFrame 
+# Selecting Series from DataFrame 
 
 ## Single Series
 

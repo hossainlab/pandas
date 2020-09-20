@@ -38,7 +38,7 @@ df.shape
 # check datatypes 
 df.dtypes
 
-## Basic Information about Whole Dataset
+## Basic Information
 
 # info: it gives an overview of datasets 
 df.info() 
@@ -47,6 +47,9 @@ df.info()
 
 # describe: it gives summary statistics or five number summary 
 df.describe() 
+
+# transpose table
+df.describe().T
 
 # for specific column 
 df['age'].describe() 
